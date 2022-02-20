@@ -54,19 +54,14 @@ function get_icecast_info($server_ip, $server_port, $admin_user, $admin_password
 $arr = get_icecast_info("IP or HOST", "PORT", "ADMIN NAME", "ADMIN PASSWORD");
 // Publikus lekérdezés -> bárki használhatja, mivel nem kér adminisztrátori adatokat
 // object => http://185.43.207.41:8000/status-json.xsl
-$file = "http://185.43.207.41:8000/status-json.xsl";
+$file = "http://IP or HOSTNAME:PORT/status-json.xsl";
 // Objektum átalakítása tömbbé
 $array = json_decode(@file_get_contents($file), TRUE);
 // Rádió(k) neve
-$classical = $array["icestats"]["source"][0]["server_name"] . "<br>";
-$darksynth = $array["icestats"]["source"][1]["server_name"] . "<br>";
-$ebm = $array["icestats"]["source"][2]["server_name"] . "<br>";
-$hardstyle = $array["icestats"]["source"][3]["server_name"] . "<br>";
-$soundtrack = $array["icestats"]["source"][4]["server_name"] . "<br>";
-$synthandwave = $array["icestats"]["source"][5]["server_name"] . "<br>";
-// Például: echo $synthandwave;
+$servername = $array["icestats"]["source"][0]["server_name"] . "<br>";
+// Például: echo $servername;
 // Egyetlen állomás adatainak lekérdezése
-$onedata = $array["icestats"]["source"][5];
+$onedata = $array["icestats"]["source"][0]; // A 0 a legelső rádióállomás
 // print_r($onedata);
 // Összes állomás adatainak lekérdezése
 $alldata = $array["icestats"]["source"];
@@ -75,8 +70,8 @@ $alldata = $array["icestats"]["source"];
 $fulldata = $array["icestats"];
 // print_r($fulldata);
 $datumido = date("H:i:s");
-$songTitle = $array["icestats"]["source"][2]["title"]; // EBM Radio
-$sql = "select count(*) as db from icecast_history where title = '$songTitle'";
+$songTitle = $array["icestats"]["source"][0]["title"]; // Aktuális zeneszám
+$sql = "select count(*) as db from icecast_history where title = '$songTitle'"; // Ellenörzi, hogy létezik - e az éppen aktuális zeneszám az adatbázisban
 $tabla = mysqli_query($dbc, $sql);
 list($db) = mysqli_fetch_row($tabla);
 if ($db < 1) {
@@ -85,9 +80,10 @@ if ($db < 1) {
     mysqli_query($dbc, $sql);
 }
 // Lejátszási előzmények lekérdezése
-$sql = "SELECT title, addedtime FROM icecast_history ORDER BY hid DESC LIMIT 1, 10";
+$sql = "SELECT title, addedtime FROM icecast_history ORDER BY hid DESC LIMIT 1, 10"; // Azért 1, mert az aktuális zeneszám nem szerepel a lejátszási előzményekben
 $result = mysqli_query($dbc, $sql);
 ?>
+<!-- Megjelenítés -->
 <div id="refresh">
     <pre>
         <?php
@@ -102,6 +98,7 @@ $result = mysqli_query($dbc, $sql);
         echo $array["icestats"]["source"][2]["title"] . "<br><br>";
         ?>
     </pre>
+    <!-- Konténer formázása -->
     <div style="min-height: 500px; width: auto; overflow: auto; padding: 0 60px; font-size: 14px;">
         <?php
         // Lejátszási előzmények megjelenítése a beállított értékig

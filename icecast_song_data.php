@@ -7,6 +7,7 @@
         <h3 style="width: auto; text-align: center;">Icecast Now Playing / History (last 10 and maximum 20 played music)</h3>
         <?php require_once 'icecast.php'; ?>
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <!-- Aktuális zeneszám / lejátszási előzmények frissítése -->
         <script type="text/javascript">
             $(function () {
                 setInterval(getTrackName, 10000);
@@ -19,6 +20,7 @@
                     $("#refresh").html(data);
                 });
             }
+            /* Figyelmeztető üzenet törlése kattintással, vagy 5 másodperc után */
             $(document).ready(function () {
                 $("#message").on("click", function () {
                     $("#message").remove();

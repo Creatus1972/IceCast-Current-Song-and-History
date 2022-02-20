@@ -7,4 +7,4 @@ az adatbázis és adabázis tábla automatikusan létrejöjjön.
 
 Ez megkönnyíti a hozzá nem -vagy kevésbé hozzáértőknek a használatot.
 
-Az icecast.php fájl 2 fajta verziót tartalmaz. Az egyik saját célú (adminisztrációs adatok megadása után használható), míg a másik publikus, mindenki számára felhasználható.
+Az icecast.php fájl 2 fajta verziót tartalmaz. Az egyik saját célú (adminisztrációs adatok megadása után használható), míg a másik publikus, mindenki számára felhasználható. A fájlok készítéséhez az IceCast dokumentációját használtam segítségül, mivel hasonlót sem találtam máshol. Az egyedisége miatt kizárólag a készítő feltüntetésével lehet használni.

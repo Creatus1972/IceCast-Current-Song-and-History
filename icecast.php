@@ -70,7 +70,7 @@ $alldata = $array["icestats"]["source"];
 $fulldata = $array["icestats"];
 // print_r($fulldata);
 $datumido = date("H:i:s");
-$songTitle = $array["icestats"]["source"][0]["title"]; // Aktuális zeneszám
+$songTitle = str_replace("'", " ", $array["icestats"]["source"][0]["title"]); // Aktuális zeneszám
 $sql = "select count(*) as db from icecast_history where title = '$songTitle'"; // Ellenörzi, hogy létezik - e az éppen aktuális zeneszám az adatbázisban
 $tabla = mysqli_query($dbc, $sql);
 list($db) = mysqli_fetch_row($tabla);
@@ -89,13 +89,13 @@ $result = mysqli_query($dbc, $sql);
         <?php
         // Rádióállomás neve
         // print_r($arr["/ebm"]["title"]."<br>");
-        echo $array["icestats"]["source"][2]["server_name"];
+        echo $array["icestats"]["source"][0]["server_name"];
         ?>
     </pre>
     <pre>
         <?php
         // Aktuális zeneszám
-        echo $array["icestats"]["source"][2]["title"] . "<br><br>";
+        echo $array["icestats"]["source"][0]["title"] . "<br><br>";
         ?>
     </pre>
     <!-- Konténer formázása -->
